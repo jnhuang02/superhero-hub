@@ -1,0 +1,153 @@
+/* Custom styles to enhance PicoCSS */
+
+/* Header styling */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-left img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.header-left h1 {
+    margin: 0;
+    color: var(--pico-primary);
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.header-right button {
+    background: var(--pico-primary);
+    border: 2px solid var(--pico-primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.header-right button:hover {
+    background: transparent;
+    color: var(--pico-primary);
+}
+
+/* Main content grid */
+#main-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+/* Superhero cards */
+.card {
+    position: relative;
+    background: var(--pico-card-background-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: var(--pico-card-box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 600px;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.top-container {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.top-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(transparent, var(--pico-card-background-color));
+}
+
+.bottom-container {
+    padding: 1.5rem;
+    height: calc(600px - 250px - 3rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bottom-container h3 {
+    margin: 0 0 1rem 0;
+    color: var(--pico-primary);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.bottom-container p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.bottom-container p:first-of-type {
+    color: var(--pico-primary);
+    font-weight: 600;
+}
+
+/* Loading and error states */
+.message {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.5rem;
+    grid-column: 1 / -1;
+}
+
+.error-message {
+    color: var(--pico-del-color);
+}
+
+/* Custom theme enhancements */
+:root[data-theme="dark"] {
+    --pico-primary: #3b82f6;
+    --pico-primary-hover: #2563eb;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .header-left h1 {
+        font-size: 2rem;
+    }
+    
+    #main-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .card {
+        height: 550px;
+    }
+}
