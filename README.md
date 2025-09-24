@@ -48,12 +48,10 @@ Here's a walkthrough of implemented required features:
 [🎥 **Watch Video Walkthrough**](https://www.loom.com/share/5323ef7390f14882bf150c414b8cc6c3?sid=694e2583-ab54-47a5-aa4f-338a0b634d79)
 
 <div>
-    <a href="https://www.loom.com/share/bafadf1f8edf45338ce7153ff51624f5?sid=43ebc954-517b-4967-be61-ab3e87ae1479">
+    <a href="https://www.loom.com/share/24332ff6f5fa4af28d47a92265ea32c1?sid=2977ac45-fc7a-4b04-a0ff-ed3d72e8c0e9">
       <p>SuperHero Hub - Web103 Project Walkthrough - Watch Video</p>
     </a>
-    <a href="https://www.loom.com/share/bafadf1f8edf45338ce7153ff51624f5?sid=43ebc954-517b-4967-be61-ab3e87ae1479">
-      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/5323ef7390f14882bf150c414b8cc6c3-1727148488815-with-play.gif">
-    </a>
+
 </div>
 
 
