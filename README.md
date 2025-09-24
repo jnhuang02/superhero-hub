@@ -45,14 +45,17 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented required features:
 
-<img src='https://www.loom.com/share/5323ef7390f14882bf150c414b8cc6c3?sid=694e2583-ab54-47a5-aa4f-338a0b634d79' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+[🎥 **Watch Video Walkthrough**](https://www.loom.com/share/5323ef7390f14882bf150c414b8cc6c3?sid=694e2583-ab54-47a5-aa4f-338a0b634d79)
 
-<!-- Replace this with whatever GIF tool you used! -->
-GIF created with [Kap](https://getkap.co/) for macOS
-<!-- Recommended tools:
-[Kap](https://getkap.co/) for macOS
-[ScreenToGif](https://www.screentogif.com/) for Windows
-[peek](https://github.com/phw/peek) for Linux. -->
+<div>
+    <a href="https://www.loom.com/share/5323ef7390f14882bf150c414b8cc6c3?sid=694e2583-ab54-47a5-aa4f-338a0b634d79">
+      <p>SuperHero Hub - Web103 Project Walkthrough - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/5323ef7390f14882bf150c414b8cc6c3?sid=694e2583-ab54-47a5-aa4f-338a0b634d79">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/5323ef7390f14882bf150c414b8cc6c3-1727148488815-with-play.gif">
+    </a>
+</div>
+
 
 ## Features Breakdown
 
