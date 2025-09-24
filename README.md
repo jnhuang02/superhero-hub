@@ -45,7 +45,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented required features:
 
-<img src='https://www.loom.com/share/5323ef7390f14882bf150c414b8cc6c3?sid=5df26af1-73d7-47d7-b0e8-ff380de76dbb' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://www.loom.com/share/5323ef7390f14882bf150c414b8cc6c3?sid=694e2583-ab54-47a5-aa4f-338a0b634d79' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 <!-- Replace this with whatever GIF tool you used! -->
 GIF created with [Kap](https://getkap.co/) for macOS
