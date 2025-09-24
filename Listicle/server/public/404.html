@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html data-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>404 - SuperHero Not Found | SuperHero Hub</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .error-container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: bold;
+            color: var(--pico-primary);
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .error-message {
+            font-size: 2rem;
+            margin: 1rem 0;
+            color: var(--pico-color);
+        }
+        
+        .error-description {
+            font-size: 1.2rem;
+            margin: 2rem 0;
+            opacity: 0.8;
+        }
+        
+        .home-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--pico-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .home-button:hover {
+            background: var(--pico-primary-hover);
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .superhero-icon {
+            font-size: 4rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            .error-message {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="superhero-icon">🦸‍♂️</div>
+        <h1 class="error-code">404</h1>
+        <h2 class="error-message">SuperHero Not Found!</h2>
+        <p class="error-description">
+            The superhero you're looking for has disappeared into another dimension. 
+            Even our best heroes couldn't locate this page!
+        </p>
+        <a href="http://localhost:5175" class="home-button">🏠 Return to Hero Hub</a>
+    </div>
+</body>
+</html>

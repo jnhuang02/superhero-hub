@@ -53,6 +53,57 @@ const renderGifts = async () => {
             card.appendChild(bottomContainer)
             mainContent.appendChild(card)
         })
+
+        // Add a test card for 404 error
+        const testCard = document.createElement('div')
+        testCard.classList.add('card')
+        testCard.style.position = 'relative'
+        testCard.style.border = '2px dashed #ff6b6b'
+        testCard.style.opacity = '0.8'
+        
+        const testTopContainer = document.createElement('div')
+        testTopContainer.classList.add('top-container')
+        testTopContainer.style.backgroundColor = '#ff6b6b'
+        testTopContainer.style.display = 'flex'
+        testTopContainer.style.alignItems = 'center'
+        testTopContainer.style.justifyContent = 'center'
+        testTopContainer.style.color = 'white'
+        testTopContainer.style.fontSize = '24px'
+        testTopContainer.textContent = '404'
+        
+        const testBottomContainer = document.createElement('div')
+        testBottomContainer.classList.add('bottom-container')
+        
+        const testName = document.createElement('h3')
+        testName.textContent = 'Test 404 Error'
+        testName.style.color = '#ff6b6b'
+        testBottomContainer.appendChild(testName)
+        
+        const testDescription = document.createElement('p')
+        testDescription.textContent = 'Click to test 404 error handling'
+        testDescription.style.fontStyle = 'italic'
+        testBottomContainer.appendChild(testDescription)
+        
+        const testButton = document.createElement('button')
+        testButton.textContent = 'Test 404'
+        testButton.style.position = 'absolute'
+        testButton.style.bottom = '10px'
+        testButton.style.right = '10px'
+        testButton.style.backgroundColor = '#ff6b6b'
+        testButton.style.color = 'white'
+        testButton.style.border = 'none'
+        testButton.style.borderRadius = '4px'
+        testButton.style.padding = '8px 12px'
+        testButton.style.cursor = 'pointer'
+        testButton.addEventListener('click', () => {
+            // Use an invalid ID that doesn't exist
+            window.location.href = `/gifts/999999`
+        })
+        
+        testBottomContainer.appendChild(testButton)
+        testCard.appendChild(testTopContainer)
+        testCard.appendChild(testBottomContainer)
+        mainContent.appendChild(testCard)
     }
     else {
         const message = document.createElement('h2')
@@ -69,5 +120,5 @@ const renderGifts = async () => {
     }
 }
 
+// Only call renderGifts when we're on the main gifts page
 renderGifts()
-
