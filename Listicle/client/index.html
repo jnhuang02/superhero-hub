@@ -5,14 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SuperHero Hub</title>
     <link rel="icon" type="image/x-icon" href="/logo.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="./style.css">
     <script defer src="/scripts/header.js"></script>
     <script defer src="/scripts/gifts.js"></script>
 </head>
 
 <body>
-    <header class="container"></header>
+    <header class="container">
+        <div class="header-container">
+            <div class="header-left">
+                <img src="/logo.png" alt="logo">
+                <h1>SuperHero Hub</h1>
+            </div>
+            <div class="header-right">
+                <form id="search-form">
+                    <label for="search-attr" class="sr-only">Search attribute</label>
+                    <select id="search-attr" aria-label="Search attribute">
+                        <option value="all">All</option>
+                        <option value="name">Name</option>
+                        <option value="universe">Universe</option>
+                        <option value="location">Location</option>
+                        <option value="powers">Powers</option>
+                    </select>
+                    <input id="search-input" type="search" placeholder="Search heroes by name, universe, location..." aria-label="Search heroes" />
+                    <button id="clear-search" type="button" aria-label="Clear search">✕</button>
+                </form>
+            </div>
+        </div>
+    </header>
     <main class="container" id="main-content"></main>
 </body>
 

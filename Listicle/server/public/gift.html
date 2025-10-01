@@ -4,9 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SuperHero Details - SuperHero Hub</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <!-- <link rel="stylesheet" href="/styles.css"> -->
     <script defer src="/scripts/gift.js"></script>
     <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --card-bg: #0f172a;
+            --card-shadow: 0 10px 30px rgba(2,6,23,0.6);
+            --text-color: #e6eef8;
+            --muted-color: #9aa7bf;
+            --background: #071023;
+            --accent: #7c3aed;
+        }
+
+        /* Reset and base */
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; }
         body {
             min-height: 100vh;
             display: flex;
@@ -14,84 +28,86 @@
             justify-content: center;
             align-items: center;
             padding: 2rem;
+            background: linear-gradient(180deg, rgba(7,16,35,1) 0%, rgba(2,6,23,1) 100%);
+            color: var(--text-color);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
         }
-        
+
         .hero-container {
             max-width: 1000px;
             width: 100%;
             margin: 0 auto;
+            padding: 1rem;
         }
-        
+
         .hero-layout {
             display: grid;
             grid-template-columns: 1fr 1.5fr;
-            gap: 3rem;
+            gap: 2.5rem;
             align-items: start;
             margin: 2rem 0;
         }
-        
-        .image-container {
-            display: flex;
-            justify-content: center;
-        }
-        
+
+        .image-container { display:flex; justify-content:center; }
+
         .image-container img {
             width: 100%;
-            max-width: 400px;
-            height: 400px;
+            max-width: 420px;
+            height: 420px;
             object-fit: cover;
-            border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255,255,255,0.04);
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
         }
-        
+
         .gift-details {
-            padding: 1rem 0;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+            border-radius: 10px;
         }
-        
+
         .gift-details h2 {
-            margin-bottom: 1rem;
-            color: var(--pico-primary);
+            margin: 0 0 0.75rem 0;
+            color: var(--primary);
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
         }
-        
-        .gift-details p {
-            margin-bottom: 0.75rem;
-            line-height: 1.6;
-        }
-        
+
+        .gift-details p { margin: 0.5rem 0; line-height:1.6; color: var(--text-color); }
+
+        .gift-meta { color: var(--muted-color); font-size: 0.95rem; margin-bottom: 1rem; }
+
         .back-button {
             position: fixed;
-            top: 2rem;
-            left: 2rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--pico-primary);
+            top: 1.5rem;
+            left: 1.5rem;
+            padding: 0.6rem 1rem;
+            background: var(--primary);
             color: white;
             text-decoration: none;
-            border-radius: 0.5rem;
+            border-radius: 8px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(3,7,18,0.6);
         }
-        
-        .back-button:hover {
-            background: var(--pico-primary-hover);
-            transform: translateY(-2px);
-        }
-        
-        @media (max-width: 768px) {
-            .hero-layout {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .back-button {
-                position: static;
-                margin-bottom: 2rem;
-                display: inline-block;
-            }
+
+        .back-button:hover { background: var(--primary-hover); transform: translateY(-2px); }
+
+        /* small helper for labels */
+        .label { display:inline-block; padding:0.15rem 0.5rem; background: rgba(255,255,255,0.03); border-radius:6px; color:var(--muted-color); font-size:0.85rem; }
+
+        /* Responsive tweaks */
+        @media (max-width: 900px) {
+            .hero-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+            .image-container img { height: 320px; max-width: 360px; }
+            .back-button { position: static; margin-bottom: 1rem; }
         }
     </style>
 </head>
 <body>
-    <a href="http://localhost:5175" class="back-button">← Back to Heroes</a>
+    <a href="http://localhost:5173" class="back-button">← Back to Heroes</a>
     
     <div class="hero-container">
         <main id="gift-content" class="hero-layout">
