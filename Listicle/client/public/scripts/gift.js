@@ -1,17 +1,27 @@
+// FRONT-END ONLY: load data from /data/gifts.js
+const loadGifts = async () => {
+    try {
+        const mod = await import('/data/gifts.js')
+        return mod.default || mod.gifts || mod.data || []
+    } catch (err) {
+        console.error('Error loading /data/gifts.js:', err)
+        return []
+    }
+}
+
 const renderGift = async () => {
-    const requestedID = parseInt(window.location.href.split('/').pop())
-    
-    const response = await fetch('/gifts')
-    const data = await response.json()
-    
+    // read id from query string, e.g. /gift.html?id=3
+    const params = new URLSearchParams(window.location.search)
+    const requestedID = parseInt(params.get('id'), 10)
+
+    const data = await loadGifts()
     const giftContent = document.getElementById('gift-content')
-    
+
     let gift
-    
-    if (data) {
+    if (data && Number.isFinite(requestedID)) {
         gift = data.find(gift => gift.id === requestedID)
     }
-    
+
     if (gift) {
         document.getElementById('image').src = gift.image
         document.getElementById('name').textContent = gift.name
@@ -19,12 +29,14 @@ const renderGift = async () => {
         document.getElementById('location').textContent = 'Location: ' + gift.location
         document.getElementById('story').textContent = gift.story
         document.title = `SuperHero Hub - ${gift.name}`
-    }
-    else {
+    } else {
         const message = document.createElement('h2')
         message.textContent = 'No Superhero Available 😞'
         giftContent.appendChild(message)
     }
 }
 
-renderGift()
+// run after DOM is loaded so elements are present
+document.addEventListener('DOMContentLoaded', () => {
+    renderGift()
+})

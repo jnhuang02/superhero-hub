@@ -17,23 +17,41 @@
                 <img src="/logo.png" alt="logo">
                 <h1>SuperHero Hub</h1>
             </div>
-            <div class="header-right">
-                <form id="search-form">
-                    <label for="search-attr" class="sr-only">Search attribute</label>
-                    <select id="search-attr" aria-label="Search attribute">
-                        <option value="all">All</option>
-                        <option value="name">Name</option>
-                        <option value="universe">Universe</option>
-                        <option value="location">Location</option>
-                        <option value="powers">Powers</option>
-                    </select>
-                    <input id="search-input" type="search" placeholder="Search heroes by name, universe, location..." aria-label="Search heroes" />
-                    <button id="clear-search" type="button" aria-label="Clear search">✕</button>
-                </form>
-            </div>
+        </div>
+
+        <div class="filter-container">
+            <label for="universe-filter">Universe:</label>
+            <select id="universe-filter">
+                <option value="all">All Heroes</option>
+                <option value="DC Comics">DC Comics</option>
+                <option value="Marvel Comics">Marvel Comics</option>
+            </select>
+        </div>
+
+        <div class="search-container">
+            <form id="search-form">
+                <label for="search-input">Search heroes:</label>
+                <input
+                    id="search-input"
+                    type="search"
+                    placeholder="Search by name, universe, location, or powers"
+                />
+
+                <label for="search-attr">in</label>
+                <select id="search-attr">
+                    <option value="all">All fields</option>
+                    <option value="name">Name</option>
+                    <option value="universe">Universe</option>
+                    <option value="location">Location</option>
+                    <option value="powers">Powers</option>
+                </select>
+
+                <button type="submit">Search</button>
+                <button type="button" id="clear-search">Clear</button>
+            </form>
         </div>
     </header>
+
     <main class="container" id="main-content"></main>
 </body>
-
 </html>

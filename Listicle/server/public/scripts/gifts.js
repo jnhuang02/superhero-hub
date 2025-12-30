@@ -1,11 +1,14 @@
-
-
 let allGifts = []
+let currentSearch = ''
+let currentAttr = 'all'
+let currentUniverse = 'all'
 
 const createCard = (gift) => {
     const card = document.createElement('div')
     card.classList.add('card')
     card.style.position = 'relative'
+    // use universe OR publisher so filtering always has data
+    card.dataset.universe = gift.universe || gift.publisher || ''
 
     const topContainer = document.createElement('div')
     topContainer.classList.add('top-container')
@@ -30,7 +33,8 @@ const createCard = (gift) => {
     infoButton.textContent = 'Info'
     infoButton.className = 'info-button'
     infoButton.addEventListener('click', () => {
-        window.location.href = `http://localhost:3001/gifts/${gift.id}`
+        // run locally: go to static details page with query param
+        window.location.href = `/gift.html?id=${gift.id}`
     })
 
     bottomContainer.appendChild(infoButton)
@@ -39,46 +43,72 @@ const createCard = (gift) => {
     return card
 }
 
-const renderFiltered = (filter, attr = 'all') => {
+const renderFiltered = (filter, attr = 'all', universeFilter = 'all') => {
     const mainContent = document.getElementById('main-content')
     mainContent.innerHTML = ''
-    const list = allGifts.filter(g => {
-        if (!filter) return true
-        const q = filter.toLowerCase()
-        const powers = Array.isArray(g.powers) ? g.powers.join(' ') : g.powers || ''
+    let list = allGifts
 
-        if (!attr || attr === 'all') {
-            return (
-                (g.name || '').toLowerCase().includes(q) ||
-                (g.universe || '').toLowerCase().includes(q) ||
-                (g.location || '').toLowerCase().includes(q) ||
-                powers.toLowerCase().includes(q)
-            )
-        }
+    // Apply universe filter first (case-insensitive, supports publisher/universe)
+    if (universeFilter && universeFilter !== 'all') {
+        const f = universeFilter.toLowerCase()
+        list = list.filter(g => {
+            const u = (g.universe || g.publisher || '').toLowerCase()
+            if (!u) return false
+            if (f.includes('dc')) return u.includes('dc')
+            if (f.includes('marvel')) return u.includes('marvel')
+            return u === f
+        })
+    }
 
-        switch (attr) {
-            case 'name':
-                return (g.name || '').toLowerCase().includes(q)
-            case 'universe':
-                return (g.universe || '').toLowerCase().includes(q)
-            case 'location':
-                return (g.location || '').toLowerCase().includes(q)
-            case 'powers':
-                return powers.toLowerCase().includes(q)
-            default:
+    // Then apply search filter if there's a search query
+    if (filter) {
+        list = list.filter(g => {
+            const q = filter.toLowerCase()
+            const powers = Array.isArray(g.powers) ? g.powers.join(' ') : g.powers || ''
+
+            if (!attr || attr === 'all') {
                 return (
                     (g.name || '').toLowerCase().includes(q) ||
-                    (g.universe || '').toLowerCase().includes(q) ||
+                    (g.universe || g.publisher || '').toLowerCase().includes(q) ||
                     (g.location || '').toLowerCase().includes(q) ||
                     powers.toLowerCase().includes(q)
                 )
+            }
+
+            switch (attr) {
+                case 'name':
+                    return (g.name || '').toLowerCase().includes(q)
+                case 'universe':
+                    return (g.universe || g.publisher || '').toLowerCase().includes(q)
+                case 'location':
+                    return (g.location || '').toLowerCase().includes(q)
+                case 'powers':
+                    return powers.toLowerCase().includes(q)
+                default:
+                    return (
+                        (g.name || '').toLowerCase().includes(q) ||
+                        (g.universe || g.publisher || '').toLowerCase().includes(q) ||
+                        (g.location || '').toLowerCase().includes(q) ||
+                        powers.toLowerCase().includes(q)
+                    )
+            }
+        })
+    }
+
+    // NEW: sort by universe, then by name for stable ordering
+    list.sort((a, b) => {
+        const ua = (a.universe || a.publisher || '').toLowerCase()
+        const ub = (b.universe || b.publisher || '').toLowerCase()
+        if (ua === ub) {
+            return (a.name || '').localeCompare(b.name || '')
         }
+        return ua.localeCompare(ub)
     })
 
     if (list.length === 0) {
         const message = document.createElement('h2')
         message.className = 'message'
-        message.textContent = 'No heroes match your search.'
+        message.textContent = 'No heroes match your filters.'
         mainContent.appendChild(message)
         return
     }
@@ -111,7 +141,10 @@ const renderFiltered = (filter, attr = 'all') => {
     testBottom.appendChild(testDesc)
     const testBtn = document.createElement('button')
     testBtn.textContent = 'Test 404'
-    testBtn.addEventListener('click', () => window.location.href = 'http://localhost:3001/gifts/999999')
+    testBtn.addEventListener('click', () => {
+        // local 404 test using non-existent id
+        window.location.href = '/gift.html?id=999999'
+    })
     testBottom.appendChild(testBtn)
     testCard.appendChild(testTop)
     testCard.appendChild(testBottom)
@@ -123,80 +156,82 @@ const debounce = (fn, wait = 250) => {
     return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait) }
 }
 
+// FRONT-END ONLY: load data from /data/gifts.js (no backend fetch)
+const loadGifts = async () => {
+    try {
+        const mod = await import('/data/gifts.js')
+        return mod.default || mod.gifts || mod.data || []
+    } catch (err) {
+        console.error('Error loading /data/gifts.js:', err)
+        return []
+    }
+}
+
 const fetchAndInit = async () => {
     try {
-        const res = await fetch('/gifts')
-        if (!res.ok) throw new Error(`HTTP error ${res.status}`)
-        allGifts = await res.json()
+        allGifts = await loadGifts()
 
-    // check for query param and attribute param
-    const params = new URLSearchParams(window.location.search)
-    const q = params.get('q') || ''
-    const attr = params.get('attr') || 'all'
-    const input = document.getElementById('search-input')
-    const select = document.getElementById('search-attr')
-    if (input) input.value = q
-    if (select) select.value = attr
+        const input = document.getElementById('search-input')
+        const attrSelect = document.getElementById('search-attr')
+        const universeSelect = document.getElementById('universe-filter')
 
-    renderFiltered(q, attr)
+        // initialize UI from current state
+        if (input) input.value = currentSearch
+        if (attrSelect) attrSelect.value = currentAttr
+        if (universeSelect) universeSelect.value = currentUniverse
 
-        // wire up search
+        // initial render
+        renderFiltered(currentSearch, currentAttr, currentUniverse)
+
+        // universe dropdown
+        if (universeSelect) {
+            universeSelect.addEventListener('change', (e) => {
+                currentUniverse = e.target.value || 'all'
+                renderFiltered(currentSearch, currentAttr, currentUniverse)
+            })
+        }
+
+        // search wiring
         if (input) {
             const onInput = debounce((e) => {
-                const val = e.target.value.trim()
-                const selVal = (document.getElementById('search-attr') || {}).value || 'all'
-                // update URL
-                const url = new URL(window.location.href)
-                if (val) url.searchParams.set('q', val)
-                else url.searchParams.delete('q')
-                if (selVal && selVal !== 'all') url.searchParams.set('attr', selVal)
-                else url.searchParams.delete('attr')
-                window.history.replaceState({}, '', url)
-                renderFiltered(val, selVal)
+                currentSearch = e.target.value.trim()
+                currentAttr = (attrSelect || {}).value || 'all'
+                renderFiltered(currentSearch, currentAttr, currentUniverse)
             }, 250)
 
             input.addEventListener('input', onInput)
-            // handle Enter / form submit to trigger immediate search
+
             const form = document.getElementById('search-form')
             if (form) {
                 form.addEventListener('submit', (e) => {
                     e.preventDefault()
-                    const val = input.value.trim()
-                    const selVal = (document.getElementById('search-attr') || {}).value || 'all'
-                    const url = new URL(window.location.href)
-                    if (val) url.searchParams.set('q', val)
-                    else url.searchParams.delete('q')
-                    if (selVal && selVal !== 'all') url.searchParams.set('attr', selVal)
-                    else url.searchParams.delete('attr')
-                    window.history.replaceState({}, '', url)
-                    renderFiltered(val, selVal)
+                    currentSearch = input.value.trim()
+                    currentAttr = (attrSelect || {}).value || 'all'
+                    renderFiltered(currentSearch, currentAttr, currentUniverse)
                 })
             }
-            // handle attribute select changes
-            const select = document.getElementById('search-attr')
-            if (select) {
-                select.addEventListener('change', (e) => {
-                    const sel = e.target.value || 'all'
-                    const val = input.value.trim()
-                    const url = new URL(window.location.href)
-                    if (val) url.searchParams.set('q', val)
-                    else url.searchParams.delete('q')
-                    if (sel && sel !== 'all') url.searchParams.set('attr', sel)
-                    else url.searchParams.delete('attr')
-                    window.history.replaceState({}, '', url)
-                    renderFiltered(val, sel)
+
+            if (attrSelect) {
+                attrSelect.addEventListener('change', (e) => {
+                    currentAttr = e.target.value || 'all'
+                    currentSearch = input.value.trim()
+                    renderFiltered(currentSearch, currentAttr, currentUniverse)
                 })
             }
+
             const clearBtn = document.getElementById('clear-search')
             if (clearBtn) clearBtn.addEventListener('click', () => {
                 input.value = ''
-                const select = document.getElementById('search-attr')
-                if (select) select.value = 'all'
-                input.dispatchEvent(new Event('input'))
+                currentSearch = ''
+                if (attrSelect) {
+                    attrSelect.value = 'all'
+                    currentAttr = 'all'
+                }
+                renderFiltered(currentSearch, currentAttr, currentUniverse)
             })
         }
     } catch (err) {
-        console.error('Error fetching gifts:', err)
+        console.error('Error initializing gifts:', err)
         const mainContent = document.getElementById('main-content')
         const errorMessage = document.createElement('h2')
         errorMessage.textContent = 'Error loading heroes. Please check the console.'
