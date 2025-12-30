@@ -9,10 +9,12 @@
          /scripts/header.js -> public/scripts/header.js
          /scripts/gifts.js  -> public/scripts/gifts.js
          Make sure those files exist at those paths. -->
-    <link rel="icon" type="image/x-icon" href="/logo.png">
+    <!-- use relative paths so GitHub Pages adds /superhero-hub/ in front -->
+    <link rel="icon" type="image/x-icon" href="logo.png">
     <link rel="stylesheet" href="./style.css">
-    <script type="module" src="/scripts/header.js"></script>
-    <script type="module" src="/scripts/gifts.js"></script>
+    <!-- load scripts as ES modules so the bundler can handle them -->
+    <script type="module" src="scripts/header.js"></script>
+    <script type="module" src="scripts/gifts.js"></script>
 </head>
 
 <body>
